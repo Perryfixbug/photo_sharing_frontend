@@ -3,7 +3,7 @@ import {ImageListItem, List, ListItem, ListItemText, Typography} from "@mui/mate
 
 import "./styles.css";
 import {Link, useParams} from "react-router-dom";
-import models from "../../modelData/models";
+import fetchModel from "../../lib/fetchModelData";
 
 /**
  * Define UserDetail, a React component of Project 4.
@@ -14,14 +14,16 @@ function UserDetail() {
     const [photoOfUser, setPhotoOfUser] = useState([]);
 
     useEffect(() => {
+      const fetchUser = async () => {
         const userId = user.userId;
-        const userModelData = models.userModel(userId);
-        setUserData(userModelData);
-        const photoUserModelData = models.photoOfUserModel(userId);
-        setPhotoOfUser(photoUserModelData);
+        const userById = await fetchModel(`http://localhost:8081/api/user/${userId}`)
+        setUserData(userById)
+        const photoUser = await fetchModel(`http://localhost:8081/api/photo/${userId}`)
+        setPhotoOfUser(photoUser)
+      }
+      fetchUser()
     },[user.userId]);
 
-    console.log(photoOfUser);
     return (
         <>
           <Typography variant="body1">

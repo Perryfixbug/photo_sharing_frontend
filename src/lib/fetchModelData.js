@@ -1,12 +1,16 @@
+import axios from 'axios'
+
 /**
  * fetchModel - Fetch a model from the web server.
  *
  * @param {string} url      The URL to issue the GET request.
  *
  */
-function fetchModel(url) {
-  const models = null;
-  return models;
+
+
+async function fetchModel (url){
+  const data = await axios.get(url)
+  return data.data
 }
 
 export default fetchModel;
