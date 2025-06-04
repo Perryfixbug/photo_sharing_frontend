@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://localhost:8081/api/";
+const URL = "https://gjwzgy-8081.csb.app/api/";
 
 const getAPI = async (endpoint)=>{
     try {

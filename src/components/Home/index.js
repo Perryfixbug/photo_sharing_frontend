@@ -98,8 +98,8 @@ const Home = () => {
 
                         <Grid item xs={12}> 
                         <img
-                            src={`/images/${photo.file_name}`}
-                            alt={photo.file_name}
+                            src={photo.url || `/images/${photo.file_name}`}
+                            alt={photo.url || photo.file_name}
                             style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
                             loading="lazy"
                         />
