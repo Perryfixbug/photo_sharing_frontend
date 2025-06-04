@@ -7,6 +7,7 @@ import fetchModel from "../../lib/fetchModelData";
 import UploadPhoto from "../UploadPhoto";
 import AddComment from "../AddComment";
 import { getCookie } from "../../lib/cookie";
+import { getAPI } from "../../lib/restfullAPI"
 /**
  * Define UserPhotos, a React component of Project 4.
  */
@@ -31,7 +32,7 @@ function UserPhotos () {
     useEffect(() => { 
       async function fetchPhoto(){
         const userId = user.userId;
-        const photoUserModelData = await fetchModel(`http://localhost:8081/api/photo/${userId}`);
+        const photoUserModelData = await getAPI(`photo/${userId}`);
         setPhotoOfUser(photoUserModelData);
       }
       fetchPhoto()
@@ -66,8 +67,8 @@ function UserPhotos () {
 
                   <Grid item xs={12}> 
                   <img
-                      src={`/images/${photo.file_name}`}
-                      alt={photo.file_name}
+                      src={photo.url || `/images/${photo.file_name}`}
+                      alt={photo.url || photo.file_name}
                       style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
                       loading="lazy"
                   />
@@ -138,55 +139,8 @@ function UserPhotos () {
       ) : (
           <p>No photos available.</p>
       )}
-      {/* <List component="nav">
-        {photoOfUser.map((item) => (
-          <Grid container spacing={1} key={item._id}>
-            <Grid xs={4} item>
-              <ListItem>
-                <ListItemText primary={`Posted time: ${item.date_time}`}/>
-              </ListItem>
-              
-              <ImageListItem key={item._id}>
-                <img
-                  src={`/images/${item.file_name}`}
-                  srcSet={`/images/${item.file_name}`}
-                  alt={item.file_name}
-                  style={{ width: '248px', height: 'auto', objectFit: 'cover' }}
-                  loading="lazy"
-                />
-              </ImageListItem>
-              
-            </Grid >
-            <Grid xs={8} item>
-              <List component="nav">
-                {item?.comments?.length > 0 && item.comments.map((comment) => (
-                  <Box 
-                    key={comment._id}
-                    sx={{
-                      border: '1px solid lightgray',
-                      borderRadius: '4px',
-                      padding: '8px',
-                      marginBottom: '8px',
-                      backgroundColor: '#f9f9f9'
-                    }}
-                  >
-                    <ListItem>
-                      <ListItemText primary={`User: ${comment?.user_id?.first_name} ${comment?.user_id?.last_name}`}/>
-                    </ListItem>
-                    <ListItem key={comment._id}>
-                      <ListItemText primary={`Comment: ${comment?.comment}`}/>
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary={`Commented time: ${comment.date_time}`}/>
-                    </ListItem>
-                  </Box>
-                ))}
-              </List>
-            </Grid >
-          </Grid>
-        ))}
-      </List> */}
-      </>
+      
+    </>
     );
 }
 

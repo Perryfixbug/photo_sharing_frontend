@@ -4,6 +4,7 @@ import {ImageListItem, List, ListItem, ListItemText, Typography} from "@mui/mate
 import "./styles.css";
 import {Link, useParams} from "react-router-dom";
 import fetchModel from "../../lib/fetchModelData";
+import { getAPI } from '../../lib/restfullAPI';
 
 /**
  * Define UserDetail, a React component of Project 4.
@@ -16,9 +17,12 @@ function UserDetail() {
     useEffect(() => {
       const fetchUser = async () => {
         const userId = user.userId;
-        const userById = await fetchModel(`http://localhost:8081/api/user/${userId}`)
+        // const userById = await fetchModel(`http://localhost:8081/api/user/${userId}`)
+        const userById = await getAPI(`user/${userId}`)
+
         setUserData(userById)
-        const photoUser = await fetchModel(`http://localhost:8081/api/photo/${userId}`)
+        // const photoUser = await fetchModel(`http://localhost:8081/api/photo/${userId}`)
+        const photoUser = await getAPI(`photo/${userId}`)
         setPhotoOfUser(photoUser)
       }
       fetchUser()
@@ -34,8 +38,8 @@ function UserDetail() {
             <List component="nav">
               <ImageListItem key={userData?._id}>
                 <img
-                  src={`/images/${photoOfUser[0]?.file_name}`}
-                  srcSet={`/images/${photoOfUser[0]?.file_name}`}
+                  src={photoOfUser[0]?.url || `/images/${photoOfUser[0]?.file_name}`}
+                  srcSet={photoOfUser[0]?.url || `/images/${photoOfUser[0]?.file_name}`}
                   alt={userData?.first_name}
                   style={{ width: '248px', height: 'auto', objectFit: 'cover' }}
                   loading="lazy"
